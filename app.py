@@ -1,7 +1,5 @@
-
 import streamlit as st
 import pickle
-import pandas as pd
 
 teams = ["Arsenal", "Chelsea", "Liverpool", "Man City", "Man United", "Spurs"]
 
