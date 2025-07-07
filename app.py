@@ -15,7 +15,7 @@ team_2 = st.selectbox("Wybierz Drużynę Gości", [t for t in teams if t != team
 if st.button("🔮 Przewiduj wynik"):
     team_1_id = teams.index(team_1)
     team_2_id = teams.index(team_2)
-    
+
     prediction = model.predict([[team_1_id, team_2_id]])[0]
 
     if prediction == 1:
