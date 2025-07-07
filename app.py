@@ -3,13 +3,26 @@ import streamlit as st
 import pickle
 import pandas as pd
 
-st.title("Football Match Predictor")
+teams = ["Arsenal", "Chelsea", "Liverpool", "Man City", "Man United", "Spurs"]
 
-teams = ["Arsenal", "Chelsea", "Liverpool", "Manchester City", "Manchester United", "Tottenham"]
-home_team = st.selectbox("Home Team", teams)
-away_team = st.selectbox("Away Team", [t for t in teams if t != home_team])
+with open("model.pkl", "rb") as f:
+    model = pickle.load(f)
 
-if st.button("Predict Result"):
-    import random
-    prediction = random.choice(["Home Win", "Draw", "Away Win"])
-    st.success(f"Predicted Result: {prediction}")
+st.title("⚽ Football Predictor")
+st.subheader("Premier League - Wersja 1")
+
+team_1 = st.selectbox("Wybierz Drużynę Gospodarzy", teams)
+team_2 = st.selectbox("Wybierz Drużynę Gości", [t for t in teams if t != team_1])
+
+if st.button("🔮 Przewiduj wynik"):
+    team_1_id = teams.index(team_1)
+    team_2_id = teams.index(team_2)
+    
+    prediction = model.predict([[team_1_id, team_2_id]])[0]
+
+    if prediction == 1:
+        st.success(f"🏆 {team_1} wygra mecz!")
+    elif prediction == -1:
+        st.success(f"🏆 {team_2} wygra mecz!")
+    else:
+        st.info("🤝 Przewidywany remis")
